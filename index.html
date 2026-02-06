@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Showroom Virtual - Transporte Quito</title>
+    <style>
+        :root {
+            --primary: #001E47;
+            --accent: #fcb024;
+            --bg: #0f172a;
+            --glass: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.1);
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg);
+            color: white;
+            overflow-x: hidden;
+        }
+
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: radial-gradient(circle at top, #1e293b, var(--bg));
+            text-align: center;
+            padding: 20px;
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            margin-bottom: 10px;
+            background: linear-gradient(to right, #fff, var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: #94a3b8;
+            max-width: 600px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            padding: 50px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .card {
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 20px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            border-color: var(--accent);
+            box-shadow: 0 0 30px rgba(205, 212, 0, 0.2);
+        }
+
+        .card img {
+            width: 100%;
+            border-radius: 12px;
+            height: 200px;
+            object-fit: cover;
+            margin-bottom: 15px;
+        }
+
+        .card h3 {
+            margin: 10px 0;
+            color: var(--accent);
+        }
+
+        .card p {
+            font-size: 0.9rem;
+            color: #cbd5e1;
+            line-height: 1.4;
+        }
+
+        /* Modal / Detail View */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            display: none;
+            z-index: 1000;
+            padding: 50px;
+            overflow-y: auto;
+        }
+
+        .modal-content {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: start;
+        }
+
+        .modal img {
+            width: 100%;
+            border-radius: 20px;
+            box-shadow: 0 0 50px rgba(0, 0, 0, 0.5);
+            position: sticky;
+            top: 20px;
+        }
+
+        .details {
+            padding-right: 20px;
+        }
+
+        .details h2 {
+            color: var(--accent);
+            font-size: 2.5rem;
+            margin-top: 0;
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 5px 12px;
+            background: var(--accent);
+            color: var(--primary);
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 0.8rem;
+            margin-bottom: 15px;
+        }
+
+        .section-title {
+            color: #fff;
+            font-size: 1.1rem;
+            margin-top: 25px;
+            border-left: 3px solid var(--accent);
+            padding-left: 10px;
+        }
+
+        .section-content {
+            color: #94a3b8;
+            font-size: 0.95rem;
+            margin-top: 10px;
+            line-height: 1.6;
+        }
+
+        .close-btn {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            font-size: 2rem;
+            color: white;
+            cursor: pointer;
+            z-index: 1001;
+        }
+
+        /* Responsive Design para Tablets y Móviles */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+
+            .subtitle {
+                font-size: 1rem;
+                padding: 0 10px;
+            }
+
+            .grid {
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                gap: 20px;
+                padding: 30px 20px;
+            }
+
+            .card {
+                padding: 15px;
+            }
+
+            .card:hover {
+                transform: translateY(-5px);
+            }
+
+            .modal {
+                padding: 20px;
+            }
+
+            .modal-content {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .modal img,
+            .modal iframe {
+                position: static !important;
+                max-height: 300px;
+                object-fit: contain;
+            }
+
+            .details {
+                padding-right: 0;
+            }
+
+            .details h2 {
+                font-size: 2rem;
+            }
+
+            .close-btn {
+                top: 15px;
+                right: 15px;
+                font-size: 2.5rem;
+                background: rgba(0, 0, 0, 0.5);
+                border-radius: 50%;
+                width: 45px;
+                height: 45px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .section-title {
+                font-size: 1rem;
+                margin-top: 20px;
+            }
+
+            .section-content {
+                font-size: 0.9rem;
+            }
+        }
+
+        /* Estilos específicos para móviles pequeños */
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            .subtitle {
+                font-size: 0.9rem;
+            }
+
+            .grid {
+                grid-template-columns: 1fr;
+                gap: 15px;
+                padding: 20px 15px;
+            }
+
+            .modal {
+                padding: 15px;
+            }
+
+            .modal-content {
+                gap: 15px;
+            }
+
+            .details h2 {
+                font-size: 1.5rem;
+            }
+
+            .tag {
+                font-size: 0.7rem;
+                padding: 4px 10px;
+            }
+
+            .close-btn {
+                top: 10px;
+                right: 10px;
+                width: 40px;
+                height: 40px;
+                font-size: 2rem;
+            }
+
+            .hero {
+                min-height: 100vh;
+                height: auto;
+                padding: 40px 15px;
+            }
+        }
+
+        /* Mejoras para touch en dispositivos móviles */
+        @media (hover: none) and (pointer: coarse) {
+            .card {
+                transition: all 0.2s ease;
+            }
+
+            .card:active {
+                transform: scale(0.98);
+                border-color: var(--accent);
+            }
+
+            .close-btn {
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <section class="hero">
+        <div class="tag">CAPACITACIÓN 2026</div>
+        <h1>Showroom Virtual Quito</h1>
+        <p class="subtitle">Explora los dispositivos de última generación que impulsan la movilidad en la capital.</p>
+    </section>
+
+    <div class="grid" id="mainGrid">
+        <!-- Cards will be injected by JS -->
+    </div>
+
+    <div class="modal" id="detailModal">
+        <span class="close-btn" onclick="closeModal()">&times;</span>
+        <div class="modal-content" id="modalContent">
+            <!-- Details will be injected by JS -->
+        </div>
+    </div>
+
+    <script>
+        const devices = [
+            {
+                name: "POS UNIT",
+                thumb: "POS UNIT.png",
+                mainMedia: "https://drive.google.com/file/d/1Mamj1wlWL2O73xmGxJL3S77pQheW6IPC/view?usp=sharing",
+                desc: "Terminal de escritorio para gestión de taquilla y cobros.",
+                longDesc: "Es una terminal de escritorio robusta basada en Android 13, diseñada para centralizar las operaciones comerciales en taquilla.",
+                parts: "Pantalla táctil 15.6\", Lector NFC, Pantalla cliente, Puertos USB/Ethernet.",
+                steps: "1. Inicio de Turno. 2. Venta de Ticket QR. 3. Recarga de tarjeta Ciudad. 4. Liquidación de jornada.",
+                fix: "Revisar conexiones USB traseras si no detecta impresora."
+            },
+            {
+                name: "POS MOVIL",
+                thumb: "ecoLite EMV.png",
+                mainMedia: "ecoLite EMV2.png",
+                desc: "Terminal móvil para inspección, venta a bordo y validación.",
+                longDesc: "Terminal móvil de mano diseñada para la gestión flexible del transporte: venta a bordo y validación.",
+                parts: "Pantalla 6\" HD, Impresora térmica superior, Cámara 5MP posterior, Lector NFC.",
+                steps: "1. Venta QR anónima. 2. Validación de saldo NFC. 3. Liquidación remota.",
+                fix: "Asegurar que la tarjeta está centrada sobre el icono NFC superior."
+            },
+            {
+                name: "TVM (Kiosko)",
+                thumb: "TVM.png",
+                mainMedia: "https://drive.google.com/file/d/1xXDiqZZQFfLhFq2TV2wxyw_Ig5f1pKc-/view?usp=sharing",
+                desc: "Máquina de Venta Automática para autoservicio total.",
+                longDesc: "Terminal de autoservicio masivo que permite a los usuarios comprar y recargar pasajes de forma autónoma.",
+                parts: "Pantalla 19\", Aceptador de billetes/monedas, Datáfono, UPS interna, Cerraduras eléctricas.",
+                steps: "1. Selección de servicio. 2. Inserción de efectivo/tarjeta. 3. Entrega de ticket y recibo.",
+                fix: "Verificar ranuras de monedas por obstrucciones."
+            },
+            {
+                name: "BCA Trípode",
+                thumb: "BCA Tripode.png",
+                mainMedia: "BCA Tripode 2.png",
+                desc: "Barrera de control de acceso para flujos masivos.",
+                longDesc: "Barrera física diseñada para regular el flujo de pasajeros de forma unipersonal y segura.",
+                parts: "Brazos de trípode, Pictogramas LED, Mecanismo Hércules, Validadora VèLite.",
+                steps: "1. Validación del usuario. 2. Indicación de flecha verde. 3. Giro manual controlado.",
+                fix: "Brazo caído indica modo emergencia o falta de corriente."
+            },
+            {
+                name: "Pasillo Motorizado",
+                thumb: "bca motorizada vidrio.png",
+                mainMedia: "https://drive.google.com/file/d/1Xx4om28oZgyDxQjc4VMR1lRa4d0k66i7/view?usp=sharing",
+                desc: "Acceso inclusivo con paneles de vidrio motorizados.",
+                longDesc: "Pasillo de acceso diseñado para personas de movilidad reducida (PMR) y familias con coches.",
+                parts: "Paneles de vidrio templado 10mm, Sensores de obstrucción, Motor de giro suave.",
+                steps: "1. Validación NFC. 2. Apertura automática 120°. 3. Cierre tras detección de cruce.",
+                fix: "Si suena la alarma, verificar si hay objetos obstruyendo el cierre."
+            },
+            {
+                name: "Terminal de Consulta",
+                thumb: "query_terminal_premium_1770152484945.png",
+                mainMedia: "query_terminal_premium_1770152484945.png",
+                desc: "Validadora de pared para consulta de saldo y QR.",
+                longDesc: "Dispositivo orientado a la transparencia de información para el usuario y validación rápida.",
+                parts: "Pantalla IPS 7\", Escáner QR de precisión, Semáforo LED, Carcasa ABS.",
+                steps: "1. Aproximación de tarjeta. 2. Lectura de saldo en pantalla. 3. Verificación de validez de QR.",
+                fix: "Si no lee el QR, ajustar la distancia del dispositivo/móvil."
+            },
+            {
+                name: "Impresora Epson",
+                thumb: "Impresora Epson.png",
+                mainMedia: "https://drive.google.com/file/d/10HqP4dq1b6HzQWz023Gk7B1q--dxhWlp/view?usp=sharing",
+                desc: "Emisión de tickets de alta velocidad TM-m30II.",
+                longDesc: "Impresora térmica compacta ideal para emitir tickets QR y recibos en segundos.",
+                parts: "Cabezal térmico, Cortador automático, Indicadores de error LED, Puerto USB.",
+                steps: "1. Carga de rollo térmico. 2. Encendido frontal. 3. Recepción automática de órdenes.",
+                fix: "Luz naranja encendida = Falta de papel o cabezal abierto."
+            },
+            {
+                name: "Detector de Billetes",
+                thumb: "Detector de Billetes.png",
+                mainMedia: "https://drive.google.com/file/d/1u_zU2qvoqb6Fu1ico4sLxhxo2W_TroHu/view?usp=sharing",
+                desc: "Seguridad total contra fraudes en efectivo.",
+                longDesc: "Dispositivo de verificación instantánea de autenticidad para dólares americanos.",
+                parts: "Sensores UV/MG/IR, Pantalla LCD, Tolva de alineación derecha, Alarma sonora.",
+                steps: "1. Inserción del billete a la derecha. 2. Verificación de luz verde. 3. Retiro del billete validado.",
+                fix: "Si sale 'Failed', alinear bien el billete y volver a probar."
+            },
+            {
+                name: "Torno de Salida",
+                thumb: "Torno Salida.png",
+                mainMedia: "https://drive.google.com/file/d/1mwqCyZ_zt5UVkoRb5ORgKfzv7rfiNgRC/view?usp=sharing",
+                desc: "Seguridad máxima en egresos de estaciones.",
+                longDesc: "Torno de salida de alta resistencia para evitar ingresos no autorizados por zonas de egreso.",
+                parts: "Rotor reforzado, Amortiguador hidráulico, Validadora integrada, Pictogramas.",
+                steps: "1. Detección de presencia. 2. Validación de salida opcional. 3. Paso unipersonal.",
+                fix: "Bloqueo automático si se intenta giro en sentido contrario."
+            }
+        ];
+
+        const grid = document.getElementById('mainGrid');
+        const modal = document.getElementById('detailModal');
+        const modalContent = document.getElementById('modalContent');
+
+        devices.forEach((dev, index) => {
+            const card = document.createElement('div');
+            card.className = 'card';
+            card.innerHTML = `
+                <img src="${dev.thumb}" alt="${dev.name}">
+                <h3>${dev.name}</h3>
+                <p>${dev.desc}</p>
+            `;
+            card.onclick = () => openModal(index);
+            grid.appendChild(card);
+        });
+
+        function openModal(index) {
+            const dev = devices[index];
+            let mediaHtml = '';
+
+            // Lógica para detectar si es un video de Drive o una imagen normal
+            if (dev.mainMedia.includes('drive.google.com') && dev.mainMedia.includes('/file/d/')) {
+                const videoId = dev.mainMedia.split('/d/')[1].split('/')[0];
+                mediaHtml = `<iframe src="https://drive.google.com/file/d/${videoId}/preview" width="100%" height="400" allow="autoplay" style="border-radius:20px; border:none;"></iframe>`;
+            } else {
+                mediaHtml = `<img src="${dev.mainMedia}" alt="${dev.name}">`;
+            }
+
+            modalContent.innerHTML = `
+                <div class="media-container">
+                    ${mediaHtml}
+                </div>
+                <div class="details">
+                    <div class="tag">ESPECIFICACIONES TÉCNICAS</div>
+                    <h2>${dev.name}</h2>
+                    
+                    <div class="section-title">¿Qué es y para qué sirve?</div>
+                    <div class="section-content">${dev.longDesc}</div>
+
+                    <div class="section-title">Partes más importantes</div>
+                    <div class="section-content">${dev.parts}</div>
+
+                    <div class="section-title">Funcionamiento Paso a Paso</div>
+                    <div class="section-content">${dev.steps}</div>
+
+                    <div class="section-title">Fallas y Soluciones</div>
+                    <div class="section-content">${dev.fix}</div>
+                </div>
+            `;
+            modal.style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        window.onclick = function (event) {
+            if (event.target == modal) closeModal();
+        }
+    </script>
+     <div class="tag">By.Wilson V</div>
+</body>
+
+</html>
