@@ -26,7 +26,7 @@ Plataforma web educativa que presenta de forma visual e interactiva los 9 dispos
 
 ## 🚀 Ver en Vivo
 
-**[👉 Acceder al Showroom Virtual](https://tu-usuario.github.io/showroom-virtual-quito/)**
+**[👉 Acceder al Showroom Virtual](https://github.com/wilvar.88/showroom-virtual-quito-2.git  )**
 
 _(El enlace se actualizará una vez desplegado en GitHub Pages)_
 
